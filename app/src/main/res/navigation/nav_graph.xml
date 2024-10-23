@@ -1,0 +1,36 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/inventoryFragment">
+
+    <fragment
+        android:id="@+id/inventoryFragment"
+        android:name="com.dantefx.pospymes.fragments.InventoryFragment"
+        android:label="Inventario"
+        tools:layout="@layout/fragment_inventory">
+        <action
+            android:id="@+id/action_inventoryFragment_to_productRecognitionFragment"
+            app:destination="@id/productRecognitionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/productRecognitionFragment"
+        android:name="com.dantefx.pospymes.fragments.ProductRecognitionFragment"
+        tools:layout="@layout/fragment_product_recognition">
+        <argument
+            android:name="mode"
+            app:argType="string"
+            android:defaultValue="inventory" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/saleFragment"
+        android:name="com.dantefx.pospymes.fragments.SaleFragment"
+        android:label="Ventas">
+        <action
+            android:id="@+id/action_saleFragment_to_productRecognitionFragment"
+            app:destination="@id/productRecognitionFragment" />
+    </fragment>
+
+</navigation>

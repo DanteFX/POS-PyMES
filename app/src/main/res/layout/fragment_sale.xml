@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/saleFragment"
+    android:name="com.dantefx.pospymes.fragments.SaleFragment">
+
+    <!-- RecyclerView para mostrar los productos seleccionados para la venta -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSales"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:layout_above="@id/totalPriceTextView"
+        android:padding="16dp" />
+
+    <!-- TextView para mostrar el precio total -->
+    <TextView
+        android:id="@+id/totalPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="150dp"/>
+
+    <!-- Botón para completar la venta -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/completeSaleButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Completar Venta"
+        android:textColor="@color/black"
+        android:layout_marginBottom="60dp"/>
+
+    <!-- Botón para escanear un producto -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/scanProductButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="Escanear Producto"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="100dp"
+        android:textColor="@color/black"/>
+</RelativeLayout>
