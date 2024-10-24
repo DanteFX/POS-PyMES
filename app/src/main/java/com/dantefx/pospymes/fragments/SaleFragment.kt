@@ -23,19 +23,24 @@ import com.google.android.material.button.MaterialButton
 
 class SaleFragment : Fragment() {
 
-    //private val sharedViewModel: SharedViewModel by activityViewModels()
+   // private val sharedViewModel: SharedViewModel by activityViewModels()
     private val productViewModel: ProductViewModel by viewModels()
-    private val sharedViewModel: SharedViewModel by lazy {
-        ViewModelProvider(this, SharedViewModelFactory(productViewModel)).get(SharedViewModel::class.java)
-    }
+ /*   private val sharedViewModel: SharedViewModel by lazy {
+        ViewModelProvider(this, SharedViewModelFactory(productViewModel))[SharedViewModel::class.java]
+    }*/
+ private val sharedViewModel: SharedViewModel by activityViewModels {
+     SharedViewModelFactory(productViewModel)
+ }
+
     private lateinit var totalPriceTextView: TextView
     private lateinit var adapter: SaleAdapter
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
+        sharedViewModel.setMode(SharedViewModel.Mode.SALE)
         val view = inflater.inflate(R.layout.fragment_sale, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewSales)
@@ -64,12 +69,13 @@ class SaleFragment : Fragment() {
         }
 
         scanProductButton.setOnClickListener {
-            sharedViewModel.setMode(SharedViewModel.Mode.SALE)
+
             findNavController().navigate(R.id.productRecognitionFragment)
         }
         sharedViewModel.currentMode.observe(viewLifecycleOwner) { mode ->
-            println("Current mode: $mode")
+            println("Current mode sale: $mode")
         }
+
 
 
         return view

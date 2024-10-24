@@ -31,22 +31,34 @@ class ProductRecognitionFragment : Fragment() {
 
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var imageCapture: ImageCapture
-    //private val sharedViewModel: SharedViewModel by activityViewModels()
+   // private val sharedViewModel: SharedViewModel by activityViewModels()
     private val productViewModel: ProductViewModel by viewModels()
 
-    private val sharedViewModel: SharedViewModel by lazy {
+    /*private val sharedViewModel: SharedViewModel by lazy {
         ViewModelProvider(this, SharedViewModelFactory(productViewModel)).get(SharedViewModel::class.java)
+    }*/
+    private val sharedViewModel: SharedViewModel by activityViewModels {
+        SharedViewModelFactory(productViewModel)
     }
+
 
     private var isProcessing = false
 
     // Inicializar TextRecognizer
     private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+    var currentMode: SharedViewModel.Mode? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        sharedViewModel.currentMode.observe(viewLifecycleOwner) { mode ->
+            println("Current mode in recognition: $mode")
+        }
+        sharedViewModel.currentMode.observe(viewLifecycleOwner) { mode ->
+            currentMode = mode
+            println("Current mode camera: $mode") // Log para verificar si el modo cambia
+        }
         _binding = FragmentProductRecognitionBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -54,7 +66,6 @@ class ProductRecognitionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cameraExecutor = Executors.newSingleThreadExecutor()
-        val mode = arguments?.getString("MODE")
 
         startCamera()
 
@@ -103,29 +114,35 @@ class ProductRecognitionFragment : Fragment() {
     @OptIn(ExperimentalGetImage::class)
     private fun processImageProxyForTextRecognition(imageProxy: ImageProxy) {
         val mediaImage = imageProxy.image
-        if (mediaImage != null) {
+
+        // Solo observamos el currentMode una vez y guardamos su valor
+
+
+        if (mediaImage != null && currentMode != null) {
             val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
 
             recognizer.process(image)
                 .addOnSuccessListener { visionText ->
                     val recognizedText = visionText.textBlocks.joinToString(" ") { it.text }
                     if (recognizedText.isNotEmpty()) {
-                        val currentMode = sharedViewModel.currentMode.value
-
-                        if (currentMode == SharedViewModel.Mode.SALE) {
-                            val productFromInventory = sharedViewModel.findProductInInventory(recognizedText)
-
-                            if (productFromInventory != null) {
-                                sharedViewModel.addProductToSale(productFromInventory)
-                                Toast.makeText(requireContext(), "Producto añadido a la venta: ${productFromInventory.name}", Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(requireContext(), "Producto no encontrado en el inventario", Toast.LENGTH_SHORT).show()
+                        when (currentMode) {
+                            SharedViewModel.Mode.SALE -> {
+                                val productFromInventory = sharedViewModel.findProductInInventory(recognizedText)
+                                println("Texto escaneado: $recognizedText")
+                                if (productFromInventory != null) {
+                                    sharedViewModel.addProductToSale(productFromInventory)
+                                    Toast.makeText(requireContext(), "Producto añadido a la venta: ${productFromInventory.name}", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(requireContext(), "Producto no encontrado en el inventario", Toast.LENGTH_SHORT).show()
+                                }
                             }
-                        } else if (currentMode == SharedViewModel.Mode.INVENTORY) {
-                            // Si estamos en modo inventario, agregar el producto al inventario
-                            val newProduct = Product(name = recognizedText, price = 0.0, quantity = 1)
-                            sharedViewModel.addProductToInventory(newProduct)
-                            Toast.makeText(requireContext(), "Producto añadido al inventario: $recognizedText", Toast.LENGTH_SHORT).show()
+                            SharedViewModel.Mode.INVENTORY -> {
+                                val newProduct = Product(name = recognizedText, price = 0.0, quantity = 1)
+                                sharedViewModel.addProductToInventory(newProduct)
+                                Toast.makeText(requireContext(), "Producto añadido al inventario: $recognizedText", Toast.LENGTH_SHORT).show()
+                            }
+
+                            null -> TODO()
                         }
                     } else {
                         Toast.makeText(requireContext(), "No se reconoció ningún texto", Toast.LENGTH_SHORT).show()
@@ -138,8 +155,13 @@ class ProductRecognitionFragment : Fragment() {
                     isProcessing = false
                     imageProxy.close()
                 }
+        } else {
+            Toast.makeText(requireContext(), "Error al procesar la imagen", Toast.LENGTH_SHORT).show()
+            isProcessing = false
+            imageProxy.close()
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

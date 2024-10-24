@@ -24,16 +24,21 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class InventoryFragment : Fragment() {
 
     private val productViewModel: ProductViewModel by viewModels()
-    private val sharedViewModel: SharedViewModel by lazy {
-        ViewModelProvider(this, SharedViewModelFactory(productViewModel)).get(SharedViewModel::class.java)
-    }
-    //private val sharedViewModel: SharedViewModel by activityViewModels()
+   /* private val sharedViewModel: SharedViewModel by lazy {
+        ViewModelProvider(this, SharedViewModelFactory(productViewModel))[SharedViewModel::class.java]
+    }*/
+   // private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var adapter: ProductAdapter
+    private val sharedViewModel: SharedViewModel by activityViewModels {
+        SharedViewModelFactory(productViewModel)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        sharedViewModel.setMode(SharedViewModel.Mode.INVENTORY) // Cambiar a modo "Inventario"
         val view = inflater.inflate(R.layout.fragment_inventory, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
@@ -66,10 +71,10 @@ class InventoryFragment : Fragment() {
         fab.setOnClickListener {
 
             findNavController().navigate(R.id.productRecognitionFragment)
-            sharedViewModel.setMode(SharedViewModel.Mode.INVENTORY) // Cambiar a modo "Inventario"
+
         }
         sharedViewModel.currentMode.observe(viewLifecycleOwner) { mode ->
-            println("Current mode: $mode") // Log para verificar si el modo cambia
+            println("Current mode inventory: $mode") // Log para verificar si el modo cambia
         }
 
 
