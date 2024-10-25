@@ -76,4 +76,5 @@ class SharedViewModel(private val productViewModel: ProductViewModel) : ViewMode
             productViewModel.updateProduct(product)
         }
     }
+
 }

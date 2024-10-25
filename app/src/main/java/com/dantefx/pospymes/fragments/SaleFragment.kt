@@ -80,9 +80,16 @@ class SaleFragment : Fragment() {
 
         return view
     }
-
     private fun confirmSale() {
-        sharedViewModel.clearSale()
-        Toast.makeText(requireContext(), "Venta completada", Toast.LENGTH_SHORT).show()
+        sharedViewModel.scannedProducts.observe(viewLifecycleOwner) { products ->
+            for (product in products) {
+                product.quantity = product.quantity - 1
+                sharedViewModel.updateProductInInventory(product)
+                sharedViewModel.removeProductFromSale(product)
+            }
+
+            adapter.notifyDataSetChanged()
+            Toast.makeText(requireContext(), "Venta completada", Toast.LENGTH_SHORT).show()
+        }
     }
 }
