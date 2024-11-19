@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="4dp">
 
     <EditText
         android:id="@+id/editProductName"
@@ -25,26 +26,42 @@
         android:hint="Cantidad"
         android:inputType="number" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="2"
+    android:padding="8dp">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:layout_marginTop="16dp">
+        android:layout_marginEnd="8dp"
+        android:minWidth="120dp" 
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:text="Cancelar"
+        android:textColor="@color/white"
+        android:padding="4dp"
+        app:backgroundTint="@color/design_default_color_error"
+        app:cornerRadius="8dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="Guardar" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="Cancelar"
-            android:layout_marginStart="8dp" />
-    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:minWidth="120dp"
+        android:text="Guardar"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:padding="4dp"
+        app:backgroundTint="@color/bluePrimary"
+        app:cornerRadius="8dp" />
 </LinearLayout>
+
+</LinearLayout>
+
+
+

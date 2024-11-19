@@ -36,11 +36,13 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="56dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="80dp"
             android:contentDescription="Añadir producto"
-            app:srcCompat="@drawable/add_24px"
+            app:backgroundTint="@color/bluePrimary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/add_24px" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
