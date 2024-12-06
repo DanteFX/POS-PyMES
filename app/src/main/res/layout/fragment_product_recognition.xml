@@ -15,16 +15,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="110dp"
         android:text="Capturar"
+        android:backgroundTint="@color/blueSecondary"
         android:textColor="@color/black"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/completeScanning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="60dp"
         android:text="Completar Escaneo"
-        android:textColor="@color/black"/>
+        android:backgroundTint="@color/blueSecondary"
+        android:textColor="@color/black" />
 </RelativeLayout>

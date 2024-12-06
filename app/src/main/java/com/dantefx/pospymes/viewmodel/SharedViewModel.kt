@@ -25,6 +25,37 @@ class SharedViewModel(private val productViewModel: ProductViewModel) : ViewMode
     private val _totalPrice = MutableLiveData(0.0)
     val totalPrice: LiveData<Double> get() = _totalPrice
 
+    init {
+        // Llamada al método para inicializar productos de prueba
+        initializeInventory()
+        initializeSales()
+    }
+
+    // Método para agregar productos de prueba al inventario
+    private fun initializeInventory() {
+        viewModelScope.launch {
+            val sampleProducts = listOf(
+                Product(name = "Coca-Cola", price = 15.0, quantity = 50),
+                Product(name = "Pepsi", price = 14.0, quantity = 30),
+                Product(name = "Galletas Oreo", price = 25.0, quantity = 20)
+            )
+            sampleProducts.forEach { product ->
+                productViewModel.insertProduct(product)
+            }
+        }
+    }
+
+    private fun initializeSales() {
+        val sampleSaleProducts = listOf(
+            Product(name = "Coca-Cola", price = 15.0, quantity = 1),
+            Product(name = "Pepsi", price = 14.0, quantity = 2)
+        )
+        val updatedList = _scannedProducts.value ?: mutableListOf()
+        updatedList.addAll(sampleSaleProducts)
+        _scannedProducts.value = updatedList
+        updateTotalPrice()
+    }
+
     // Cambiar modo (Inventario o Venta)
     fun setMode(mode: Mode) {
         _currentMode.value = mode
@@ -74,7 +105,9 @@ class SharedViewModel(private val productViewModel: ProductViewModel) : ViewMode
     fun updateProductInInventory(product: Product) {
         viewModelScope.launch {
             productViewModel.updateProduct(product)
+
         }
+
     }
 
 }
