@@ -97,7 +97,24 @@ class InventoryFragment : Fragment() {
     }
 
     private fun deleteProduct(product: Product) {
-        productViewModel.deleteProduct(product)
-        Toast.makeText(requireContext(), "${product.name} eliminado", Toast.LENGTH_SHORT).show()
+        // Crear un cuadro de diálogo para confirmar la acción
+        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirmación")
+        builder.setMessage("¿Estás seguro de que deseas eliminar ${product.name}?")
+
+        // Botón positivo (eliminar)
+        builder.setPositiveButton("Sí") { _, _ ->
+            productViewModel.deleteProduct(product)
+            Toast.makeText(requireContext(), "${product.name} eliminado", Toast.LENGTH_SHORT).show()
+        }
+
+        // Botón negativo (cancelar)
+        builder.setNegativeButton("Cancelar") { dialog, _ ->
+            dialog.dismiss() // Cierra el cuadro de diálogo
+        }
+
+        // Mostrar el cuadro de diálogo
+        builder.create().show()
+
     }
 }

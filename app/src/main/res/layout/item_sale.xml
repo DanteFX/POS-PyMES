@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:text="Product Name"
             android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <!-- Precio del Producto -->
@@ -30,7 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Price"
-            android:textAppearance="?attr/textAppearanceBody2" />
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textSize="16sp" />
 
         <!-- Botón de Eliminar -->
         <Button

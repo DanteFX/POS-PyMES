@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:text="Product Name"
             android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -29,14 +30,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price"
-            android:textAppearance="?attr/textAppearanceBody2" />
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/productQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cantidad"
-            android:textAppearance="?attr/textAppearanceBody2" />
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textSize="16sp" />
 
         <!-- Botones de Editar y Borrar -->
         <LinearLayout
@@ -51,7 +54,8 @@
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:background="@drawable/edit_24px"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/deleteButton"
