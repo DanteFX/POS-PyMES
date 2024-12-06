@@ -5,6 +5,19 @@
     android:id="@+id/saleFragment"
     android:name="com.dantefx.pospymes.fragments.SaleFragment">
 
+    <!-- Texto de inicio -->
+    <TextView
+        android:id="@+id/scanHintTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Comienza a Escanear Productos"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="visible" />
+
     <!-- RecyclerView para mostrar los productos seleccionados para la venta -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSales"
@@ -16,6 +29,7 @@
         android:layout_marginEnd="16dp"
         android:clipToPadding="false"
         android:scrollbars="vertical"
+        android:layout_below="@id/scanHintTextView"
         android:layout_above="@id/totalPriceTextView"
         android:padding="16dp" />
 
@@ -43,7 +57,6 @@
         android:text="Completar"
         android:textColor="@color/black"
         app:backgroundTint="@color/blueSecondary" />
-
 
     <!-- Botón para escanear un producto -->
     <com.google.android.material.button.MaterialButton
